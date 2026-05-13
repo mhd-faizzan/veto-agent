@@ -45,7 +45,7 @@
         {% if result == "approved" %}
             <div class="icon">✅</div>
             <h1>Action Approved</h1>
-            <p>The agent has been given the green light. The action will be executed shortly.</p>
+            <p>{{ message or "The agent has been given the green light." }}</p>
         {% elif result == "denied" %}
             <div class="icon">🚫</div>
             <h1>Action Denied</h1>

@@ -2,7 +2,6 @@ import os
 import uuid
 import logging
 import smtplib
-import asyncio
 from datetime import datetime, timezone
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -10,10 +9,9 @@ from email.mime.multipart import MIMEMultipart
 import yaml
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, session, redirect, url_for, jsonify
-from groq import Groq
 
 from calendar_service import get_calendar_service, get_upcoming_events
-from agent import process_command
+from agent import process_command, execute_approved_action
 
 load_dotenv()
 
@@ -78,7 +76,6 @@ def home():
 
 @app.route("/connect")
 def connect():
-    # trigger Google OAuth flow
     service = get_calendar_service()
     if service:
         session["connected"] = True
@@ -94,6 +91,7 @@ def chat():
     response = None
     command = None
     pending = False
+    approval_id = None
 
     if request.method == "POST":
         command = request.form.get("command", "").strip()
@@ -101,9 +99,10 @@ def chat():
             result = process_command(command, pending_approvals, send_approval_email)
             response = result.get("message")
             pending = result.get("pending", False)
+            approval_id = result.get("approval_id")
             logger.info("Command: %s | Pending: %s", command, pending)
 
-    return render_template("chat.html", response=response, command=command, pending=pending)
+    return render_template("chat.html", response=response, command=command, pending=pending, approval_id=approval_id)
 
 
 @app.route("/approve/<approval_id>")
@@ -111,8 +110,10 @@ def approve(approval_id: str):
     if approval_id in pending_approvals:
         pending_approvals[approval_id]["status"] = "approved"
         logger.info("Action approved: %s", approval_id)
-        return render_template("approval_result.html", result="approved")
-    return render_template("approval_result.html", result="expired")
+        result = execute_approved_action(approval_id, pending_approvals)
+        logger.info("Execution result: %s", result.get("message"))
+        return render_template("approval_result.html", result="approved", message=result.get("message"))
+    return render_template("approval_result.html", result="expired", message=None)
 
 
 @app.route("/deny/<approval_id>")
@@ -120,13 +121,12 @@ def deny(approval_id: str):
     if approval_id in pending_approvals:
         pending_approvals[approval_id]["status"] = "denied"
         logger.info("Action denied: %s", approval_id)
-        return render_template("approval_result.html", result="denied")
-    return render_template("approval_result.html", result="expired")
+        return render_template("approval_result.html", result="denied", message=None)
+    return render_template("approval_result.html", result="expired", message=None)
 
 
 @app.route("/check/<approval_id>")
 def check_approval(approval_id: str):
-    # frontend polls this to check if user has approved or denied
     if approval_id not in pending_approvals:
         return jsonify({"status": "expired"})
     return jsonify({"status": pending_approvals[approval_id]["status"]})
