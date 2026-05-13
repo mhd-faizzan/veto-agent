@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veto Agent</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f0f;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .card {
+            background: #1a1a1a;
+            padding: 48px;
+            border-radius: 16px;
+            border: 1px solid #2a2a2a;
+            text-align: center;
+            max-width: 440px;
+            width: 100%;
+        }
+        .badge {
+            display: inline-block;
+            background: #1a2a3a;
+            color: #60a5fa;
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #60a5fa40;
+        }
+        h1 { font-size: 26px; margin-bottom: 10px; }
+        p { color: #888; font-size: 14px; line-height: 1.7; margin-bottom: 32px; }
+        .features {
+            text-align: left;
+            background: #111;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 28px;
+        }
+        .feature {
+            font-size: 13px;
+            color: #aaa;
+            padding: 6px 0;
+            border-bottom: 1px solid #222;
+        }
+        .feature:last-child { border-bottom: none; }
+        .feature span { color: #4ade80; margin-right: 8px; }
+        .feature .warn { color: #f59e0b; }
+        a {
+            display: block;
+            padding: 14px;
+            background: #60a5fa;
+            color: #000;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        a:hover { background: #3b82f6; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="badge">Google Calendar + Auth0 CIBA</div>
+        <h1>Veto Agent</h1>
+        <p>An AI agent that manages your Google Calendar. Safe actions run instantly. Risky ones wait for your approval.</p>
+        <div class="features">
+            <div class="feature"><span>✓</span> List upcoming events — runs instantly</div>
+            <div class="feature"><span class="warn">⚠</span> Schedule a meeting — requires approval</div>
+            <div class="feature"><span class="warn">⚠</span> Delete an event — requires approval</div>
+        </div>
+        <a href="/connect">Connect Google Calendar</a>
+    </div>
+</body>
+</html>
