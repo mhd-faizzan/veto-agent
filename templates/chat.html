@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veto Agent - Chat</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f0f;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        .header {
+            width: 100%;
+            max-width: 700px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        .badge {
+            background: #1a2a3a;
+            color: #60a5fa;
+            font-size: 13px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid #60a5fa40;
+        }
+        a.logout {
+            color: #555;
+            font-size: 13px;
+            text-decoration: none;
+        }
+        a.logout:hover { color: #f87171; }
+        .chat-box {
+            width: 100%;
+            max-width: 700px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            min-height: 200px;
+        }
+        .empty { color: #444; font-size: 14px; text-align: center; padding: 40px 0; }
+        .query-label { color: #555; font-size: 11px; letter-spacing: 1px; margin-bottom: 8px; }
+        .query-text { color: #aaa; font-size: 15px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #2a2a2a; }
+        .answer-label { color: #60a5fa; font-size: 11px; letter-spacing: 1px; margin-bottom: 8px; }
+        .answer-text { color: #e5e5e5; font-size: 15px; line-height: 1.8; white-space: pre-line; }
+        .pending-box {
+            background: #1a2a1a;
+            border: 1px solid #4ade8040;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 16px;
+            text-align: center;
+        }
+        .pending-box p { color: #4ade80; font-size: 14px; margin-bottom: 12px; }
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #2a2a2a;
+            border-top-color: #4ade80;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .input-area {
+            width: 100%;
+            max-width: 700px;
+            display: flex;
+            gap: 12px;
+        }
+        input {
+            flex: 1;
+            padding: 14px 16px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+        }
+        input:focus { border-color: #60a5fa; }
+        button {
+            padding: 14px 28px;
+            background: #60a5fa;
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        button:hover { background: #3b82f6; }
+        .hints {
+            width: 100%;
+            max-width: 700px;
+            margin-top: 16px;
+            color: #444;
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="badge">Veto Agent</div>
+        <a href="/" class="logout">Disconnect</a>
+    </div>
+
+    <div class="chat-box">
+        {% if response %}
+            <div class="query-label">YOUR COMMAND</div>
+            <div class="query-text">{{ command }}</div>
+            <div class="answer-label">AGENT RESPONSE</div>
+            <div class="answer-text">{{ response }}</div>
+            {% if pending %}
+            <div class="pending-box" id="pendingBox">
+                <p>Waiting for your approval via email...</p>
+                <div class="spinner"></div>
+            </div>
+            {% endif %}
+        {% else %}
+            <div class="empty">Tell me what to do with your Google Calendar.</div>
+        {% endif %}
+    </div>
+
+    <form class="input-area" method="POST" action="/chat">
+        <input type="text" name="command" placeholder="e.g. Show my upcoming events" autofocus>
+        <button type="submit">Send</button>
+    </form>
+
+    <div class="hints">
+        Try: "show my events" / "schedule a meeting with the CEO" / "delete my standup meeting"
+    </div>
+</body>
+</html>
