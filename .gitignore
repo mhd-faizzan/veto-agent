@@ -1,0 +1,18 @@
+# env
+.env
+.venv/
+
+# python cache
+__pycache__/
+*.pyc
+
+# system
+.DS_Store
+
+# uv
+.uv/
+uv.lock
+
+# google oauth token
+token.json
+credentials.json
