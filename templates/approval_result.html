@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veto Agent - Approval</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f0f;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .card {
+            background: #1a1a1a;
+            padding: 48px;
+            border-radius: 16px;
+            border: 1px solid #2a2a2a;
+            text-align: center;
+            max-width: 420px;
+            width: 100%;
+        }
+        .icon { font-size: 48px; margin-bottom: 20px; }
+        h1 { font-size: 22px; margin-bottom: 12px; }
+        p { color: #888; font-size: 14px; line-height: 1.6; margin-bottom: 32px; }
+        a {
+            display: inline-block;
+            padding: 12px 32px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        a:hover { border-color: #60a5fa; color: #60a5fa; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        {% if result == "approved" %}
+            <div class="icon">✅</div>
+            <h1>Action Approved</h1>
+            <p>The agent has been given the green light. The action will be executed shortly.</p>
+        {% elif result == "denied" %}
+            <div class="icon">🚫</div>
+            <h1>Action Denied</h1>
+            <p>The agent has been stopped. No changes were made to your calendar.</p>
+        {% else %}
+            <div class="icon">⏰</div>
+            <h1>Link Expired</h1>
+            <p>This approval link has expired or was already used.</p>
+        {% endif %}
+        <a href="/">Go Home</a>
+    </div>
+</body>
+</html>
