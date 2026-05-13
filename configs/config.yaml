@@ -1,0 +1,16 @@
+app:
+  secret_key: "change-this-in-production"
+  port: 5002
+  debug: true
+
+agent:
+  # actions that require user approval before executing
+  high_impact_actions:
+    - "delete_event"
+    - "schedule_meeting"
+    - "update_event"
+
+approval:
+  # how long to wait for approval in seconds
+  timeout: 300
+  base_url: "http://localhost:5002"
