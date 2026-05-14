@@ -194,14 +194,6 @@ Open `http://localhost:5002` and click **Connect Google Calendar**. On first run
 
 ---
 
-## What I learned
-
-Before this I had never thought about authorization in the context of AI agents. Most tutorials just give the agent full access and call it done. But in the real world, an agent with unchecked access to your calendar or email is a liability.
-
-The async approval pattern — where the agent pauses mid-execution and waits for out-of-band consent — is actually how production AI agent systems handle sensitive operations. Building it from scratch made the concept click in a way that reading about it never would.
-
----
-
 ## Built by
 
 [Muhammad Faizan](https://github.com/mhd-faizzan) during MLH Global Hack Week 2026.
